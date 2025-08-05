@@ -1,0 +1,6 @@
+<div *ngIf="isVisible" class="alert" [ngClass]="'alert-' + type" role="alert">
+  {{ message }}
+  <button *ngIf="dismissible" type="button" class="close-btn" (click)="dismiss()">
+    &times;
+  </button>
+</div>

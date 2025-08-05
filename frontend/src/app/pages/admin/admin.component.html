@@ -1,0 +1,110 @@
+<div class="container admin-reservations-container">
+  <h2 class="section-title">Reservations Management</h2>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="activeReservations.length === 0" class="empty-state mb-5">
+    No active reservations
+  </div>
+
+  <ul class="book-list">
+    <li *ngFor="let reservation of activeReservations" class="book-card"
+        [hidden]="reservation.status === 'CANCELLED'">
+      
+      <img [src]="reservation.book_cover" class="book-cover" />
+
+      <div class="book-details">
+        <h3 class="book-title">{{ reservation.book_title }}</h3>
+        <p class="book-user"><strong>User:</strong> {{ reservation.user?.name}}</p>
+        <p class="book-date">Reserved on: {{ reservation.created_at | date:'short' }}</p>
+        <p class="book-date">Reservation expires on: {{ reservation.expiry_date | date:'short' }}</p>
+        <p class="book-status"><strong>Status:</strong> {{ reservation.status }}</p>
+      </div>
+
+      <div class="action-buttons">
+        <button *ngIf="reservation.status === 'RESERVED'" class="action-button approve-button"
+                (click)="approveReservation(reservation.id)">
+          Checked Out
+        </button>
+
+        <button *ngIf="reservation.status === 'RESERVED'" class="action-button cancel-button"
+                (click)="cancelReservation(reservation.id)">
+          Cancel Reservation
+        </button>
+
+        <button *ngIf="reservation.status === 'BORROWED'" class="action-button return-button"
+                (click)="markAvailable(reservation.id, reservation.book_id)">
+          Returned
+        </button>
+      </div>
+    </li>
+  </ul>
+
+  <div class="pb-12">
+    <h2 class="section-title">Books Management</h2>
+  
+    <div class="admin-actions mb-6">
+      <button class="btn btn-add" (click)="showCreateForm = true" *ngIf="!showCreateForm">
+        ➕ Add Book
+      </button>
+      <button class="btn btn-delete-toggle" (click)="toggleDeleteList()">
+        {{ showDeleteList ? '❌ Cancel' : '🗑️ Delete Books' }}
+      </button>
+    </div>
+    
+    <form *ngIf="showCreateForm" (submit)="createBook(); $event.preventDefault()" class="create-book-form">
+      <div class="form-grid">
+        <input type="text" placeholder="Title" [(ngModel)]="newBook.title" name="title" required />
+        <input type="text" placeholder="Author" [(ngModel)]="newBook.author" name="author" />
+        <input type="text" placeholder="Category" [(ngModel)]="newBook.category" name="category" />
+        <input type="text" placeholder="Cover Image URL" [(ngModel)]="newBook.cover_image" name="cover_image" />
+        <textarea placeholder="Description" [(ngModel)]="newBook.description" name="description"></textarea>
+        <input type="number" placeholder="Published Year" [(ngModel)]="newBook.published_year" name="published_year" />
+        <input type="text" placeholder="ISBN" [(ngModel)]="newBook.isbn" name="isbn" />
+        <input type="number" placeholder="Pages" [(ngModel)]="newBook.pages" name="pages" />
+        <input type="text" placeholder="Publisher" [(ngModel)]="newBook.publisher" name="publisher" />
+        <input type="text" placeholder="Language" [(ngModel)]="newBook.language" name="language" />
+        <input type="number" placeholder="Rating (0-5)" [(ngModel)]="newBook.rating" name="rating" min="0" max="5" step="0.1" />
+      </div>
+    
+      <div class="form-buttons">
+        <button class="btn btn-submit" type="submit">✅ Add Book</button>
+        <button class="btn btn-cancel" type="button" (click)="showCreateForm = false">Cancel</button>
+      </div>
+    </form>
+    
+    
+    <ul *ngIf="showDeleteList" class="book-list">
+      <li *ngFor="let book of books" class="book-card">
+        <img [src]="book.cover_image" alt="{{book.title}}" class="book-cover" />
+        <div class="book-details">
+          <h3>{{ book.title }}</h3>
+          <p>{{ book.description }}</p>
+        </div>
+        <button class="delete-button" (click)="deleteBook(book.id)">Delete</button>
+      </li>
+    </ul>
+  </div>
+  
+  <h2 class="section-title">Reservation History (Returned / Cancelled)</h2>
+
+  <div *ngIf="reservationLogs.length === 0" class="empty-state">
+    No reservation history available
+  </div>
+
+  <ul class="book-list">
+    <li *ngFor="let reservation of reservationLogs" class="book-card">
+      <img [src]="reservation.book_cover" class="book-cover" />
+      <div class="book-details">
+        <h3 class="book-title">{{ reservation.book_title }}</h3>
+        <p><strong>User:</strong> {{ reservation.user?.name }}</p>
+        <p>Reserved on: {{ reservation.created_at | date:'short' }}</p>
+        <p><strong>Status:</strong> {{ reservation.status }}</p>
+      </div>
+    </li>
+  </ul>
+</div>
+
+

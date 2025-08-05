@@ -1,0 +1,76 @@
+<header class="header">
+  <div class="container">
+    <div class="logo">
+      <a routerLink="/">
+        <h1>LibraTrack</h1>
+      </a>
+    </div>
+    
+    <nav class="nav-desktop">
+      <ul>
+        <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+        <li><a routerLink="/books" routerLinkActive="active">Books</a></li>
+        <ng-container *ngIf="isAuthenticated">
+          <li><a routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
+          <li><a routerLink="/reservations" routerLinkActive="active">Reservations</a></li>
+          <li *ngIf="isAdmin"><a routerLink="/admin" routerLinkActive="active">Admin</a></li>
+        </ng-container>
+      </ul>
+    </nav>
+    
+    <div class="auth-actions">
+      <ng-container *ngIf="!isAuthenticated">
+        <a routerLink="/login" class="btn-login">Login</a>
+        <a routerLink="/register" class="btn-register">Register</a>
+      </ng-container>
+      
+      <div *ngIf="isAuthenticated" class="user-menu">
+        <div class="user-info" (click)="toggleUserDropdown()">
+          <div class="avatar" *ngIf="user?.avatar">
+            <img [src]="user?.avatar" alt="User avatar">
+          </div>
+          <div class="avatar avatar-placeholder" *ngIf="!user?.avatar">
+            {{ user?.name?.charAt(0) }}
+          </div>
+          <span class="username">{{ user?.name }}</span>
+          <span class="dropdown-icon" [class.open]="userDropdownOpen">▼</span>
+        </div>
+        
+        <div class="dropdown-menu" *ngIf="userDropdownOpen">
+          <ul>
+            <li><a routerLink="/profile">Profile</a></li>
+            <li><a routerLink="/reading-lists">Reading Lists</a></li>
+            <li><a routerLink="/fines">Fines</a></li>
+            <li><a (click)="onLogout()">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <button class="mobile-menu-toggle" (click)="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+  
+  <div class="mobile-menu" [class.open]="mobileMenuOpen">
+    <ul>
+      <li><a routerLink="/" (click)="closeMobileMenu()">Home</a></li>
+      <li><a routerLink="/books" (click)="closeMobileMenu()">Books</a></li>
+      <ng-container *ngIf="isAuthenticated">
+        <li><a routerLink="/dashboard" (click)="closeMobileMenu()">Dashboard</a></li>
+        <li><a routerLink="/reservations" (click)="closeMobileMenu()">Reservations</a></li>
+        <li><a routerLink="/profile" (click)="closeMobileMenu()">Profile</a></li>
+        <li><a routerLink="/reading-lists" (click)="closeMobileMenu()">Reading Lists</a></li>
+        <li><a routerLink="/fines" (click)="closeMobileMenu()">Fines</a></li>
+        <li *ngIf="isAdmin"><a routerLink="/admin" (click)="closeMobileMenu()">Admin</a></li>
+        <li><a (click)="onLogout(); closeMobileMenu()">Logout</a></li>
+      </ng-container>
+      <ng-container *ngIf="!isAuthenticated">
+        <li><a routerLink="/login" (click)="closeMobileMenu()">Login</a></li>
+        <li><a routerLink="/register" (click)="closeMobileMenu()">Register</a></li>
+      </ng-container>
+    </ul>
+  </div>
+</header>

@@ -1,0 +1,182 @@
+.admin-reservations-container {
+    padding: 1rem;
+  }
+  
+  .book-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1rem;
+    margin-bottom: 70px;
+  }
+  
+  .book-card {
+    display: flex;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px #00000010;
+    overflow: hidden;
+    padding: 1rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .book-cover {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    max-height: 200px;
+    border-radius: 6px;
+  }
+  
+  .book-details {
+    flex-grow: 1;
+  }
+  
+  .book-title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+  
+  .book-author,
+  .book-user,
+  .book-date,
+  .book-status {
+    font-size: 0.9rem;
+    margin: 0.2rem 0;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .action-button {
+    padding: 0.4rem 0.8rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .approve-button {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .cancel-button {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .return-button {
+    background-color: #2196f3;
+    color: white;
+  }
+  
+  .error-message {
+    color: red;
+    margin-bottom: 1rem;
+  }
+  
+  .empty-state {
+    text-align: center;
+    color: gray;
+    margin-top: 2rem;
+  }
+  
+  .pb-12{
+    margin-bottom: 70px;
+  }
+
+  .admin-actions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .btn {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-add {
+    background-color: #28a745;
+    color: #fff;
+  }
+  
+  .btn-delete-toggle {
+    background-color: #dc3545;
+    color: #fff;
+  }
+  
+  .btn-submit {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .btn-cancel {
+    background-color: #6c757d;
+    color: #fff;
+  }
+  
+  .btn:hover {
+    opacity: 0.9;
+  }
+  
+  .create-book-form {
+    background-color: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-bottom: 2rem;
+  }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .create-book-form input,
+  .create-book-form textarea {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    width: 100%;
+  }
+  
+  .create-book-form textarea {
+    min-height: 80px;
+    resize: vertical;
+  }
+  
+  .form-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+    margin-top: 1rem;
+  }
+  
+  .success-message {
+    color: #28a745;
+    font-weight: 600;
+    margin: 0.5rem 0 1rem;
+  }
+  
+  .error-message {
+    color: #dc3545;
+    font-weight: 600;
+    margin: 0.5rem 0 1rem;
+  }
+  

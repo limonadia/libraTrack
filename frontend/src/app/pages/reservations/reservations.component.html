@@ -1,0 +1,19 @@
+<div class="container">
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <h2 class="section-title">Reserved Books</h2>
+  <div *ngIf="reservedBooks.length === 0" class="empty-state">No reserved books</div>
+  <ul class="book-list">
+    <li *ngFor="let res of reservedBooks" class="book-card">
+        <img [src]="res.book.cover_image || 'assets/images/book-placeholder.jpg'" alt="{{ res.book.title }}" class="book-cover" />
+      <div class="book-details">
+        <h3 class="book-title">{{ res.book.title }}</h3>
+        <p class="book-author">by {{ res.book.author }}</p>
+        <p class="book-date">Reserved on: {{ res.date | date:'short' }}</p>
+      </div>
+        <button class="action-button cancel-button" (click)="cancelReservation(res.id, res.book_id)">Cancel Reservation</button>
+    </li>
+  </ul>
+</div>

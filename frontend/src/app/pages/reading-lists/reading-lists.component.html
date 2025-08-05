@@ -1,0 +1,27 @@
+<div class="reading-lists-page">
+  <h1 class="page-title">📖 Books I’ve Read</h1>
+
+  <section class="section returned-section">
+    <p class="empty-msg" *ngIf="returnedBooks.length === 0">
+      You haven't finished any books yet.
+    </p>
+
+    <div class="cards-grid" *ngIf="returnedBooks.length > 0">
+      <article class="book-card" *ngFor="let res of returnedBooks">
+        <img
+          class="book-cover"
+          [src]="res.book.cover_image"
+          [alt]="res.book_title"
+        />
+        <div class="book-details">
+          <h3 class="book-title">{{ res.book_title }}</h3>
+          <p class="book-author">by {{ res.book.author }}</p>
+          <p class="returned-date">
+            Finished on: <strong>{{ res.updated_at | date: 'mediumDate' }}</strong>
+          </p>
+          <a class="btn view-btn" [routerLink]="['/books', res.book_id]">View Details</a>
+        </div>
+      </article>
+    </div>
+  </section>
+</div>

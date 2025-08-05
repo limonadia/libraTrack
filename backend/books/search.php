@@ -1,0 +1,64 @@
+<?php
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json; charset=UTF-8");
+
+include_once '../config/database.php';
+include_once '../models/book.php';
+
+$database = new Database();
+$db = $database->getConnection();
+
+$book = new Book($db);
+
+$keywords = isset($_GET["q"]) ? $_GET["q"] : "";
+$category = isset($_GET["category"]) ? $_GET["category"] : "";
+$available = isset($_GET["available"]) ? $_GET["available"] == "true" : false;
+
+$stmt = $book->search($keywords, $category, $available);
+$num = $stmt->rowCount();
+
+if($num > 0){
+    $books_arr = array();
+    $books_arr["records"] = array();
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+        extract($row);
+
+        $book->id = $id;
+        $tags = $book->getTags();
+
+        $book_item = array(
+            "id" => $id,
+            "title" => $title,
+            "author" => $author,
+            "description" => html_entity_decode($description),
+            "category" => $category,
+            "cover_image" => $cover_image,
+            "available" => $available == 1 ? true : false,
+            "published_year" => $published_year,
+            "isbn" => $isbn,
+            "pages" => $pages,
+            "publisher" => $publisher,
+            "language" => $language,
+            "added_by" => $added_by,
+            "created_at" => $created_at,
+            "updated_at" => $updated_at,
+            "rating" => $rating,
+            "tags" => $tags
+        );
+
+        array_push($books_arr["records"], $book_item);
+    }
+
+    http_response_code(200);
+
+    echo json_encode($books_arr);
+}
+else{
+    http_response_code(404);
+
+    echo json_encode(
+        array("message" => "No books found.")
+    );
+}
+?>

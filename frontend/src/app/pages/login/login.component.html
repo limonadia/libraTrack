@@ -1,0 +1,57 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <h2>Login to LibraTrack</h2>
+      <p>Enter your credentials to access your account</p>
+    </div>
+    
+    <app-alert *ngIf="error" type="danger" [message]="error"></app-alert>
+    
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email" 
+          placeholder="Enter your email"
+          [ngClass]="{'invalid': loginForm.get('email')?.invalid && loginForm.get('email')?.touched}"
+        >
+        <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="error-message">
+          <span *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</span>
+          <span *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email</span>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <div class="password-label">
+          <label for="password">Password</label>
+          <a routerLink="/forgot-password" class="forgot-password">Forgot password?</a>
+        </div>
+        <input 
+          type="password" 
+          id="password" 
+          formControlName="password" 
+          placeholder="Enter your password"
+          [ngClass]="{'invalid': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}"
+        >
+        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error-message">
+          <span *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</span>
+        </div>
+      </div>
+      
+      <button 
+        type="submit" 
+        class="btn-login" 
+        [disabled]="loginForm.invalid || isLoading"
+      >
+        <span *ngIf="!isLoading">Login</span>
+        <span *ngIf="isLoading">Logging in...</span>
+      </button>
+      
+      <div class="register-link">
+        Don't have an account? <a routerLink="/register">Sign up</a>
+      </div>
+    </form>
+  </div>
+</div>

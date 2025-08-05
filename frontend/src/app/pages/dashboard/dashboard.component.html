@@ -1,0 +1,54 @@
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1>👋 Welcome back, {{ user?.name }}!</h1>
+    <p>Here’s your library overview</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card borrowed">
+      <div class="stat-icon">📖</div>
+      <div class="stat-info">
+        <h3>{{ stats.borrowedBooks }}</h3>
+        <p>Currently Borrowed</p>
+      </div>
+    </div>
+
+    <div class="stat-card overdue">
+      <div class="stat-icon">⚠️</div>
+      <div class="stat-info">
+        <h3>{{ stats.overdueBooks }}</h3>
+        <p>Overdue Books</p>
+      </div>
+    </div>
+
+    <div class="stat-card reserved">
+      <div class="stat-icon">🔖</div>
+      <div class="stat-info">
+        <h3>{{ stats.reservations }}</h3>
+        <p>Active Reservations</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="quick-actions">
+    <h2>⚡ Quick Actions</h2>
+    <div class="action-buttons">
+      <a routerLink="/books" class="action-btn">
+        <span class="btn-icon">🔍</span>
+        <span>Browse Books</span>
+      </a>
+      <a routerLink="/reservations" class="action-btn">
+        <span class="btn-icon">📋</span>
+        <span>My Reservations</span>
+      </a>
+      <a routerLink="/reading-lists" class="action-btn">
+        <span class="btn-icon">📝</span>
+        <span>Reading Lists</span>
+      </a>
+      <a routerLink="/profile" class="action-btn">
+        <span class="btn-icon">👤</span>
+        <span>My Profile</span>
+      </a>
+    </div>
+  </div>
+</div>

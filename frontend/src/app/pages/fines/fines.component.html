@@ -1,0 +1,31 @@
+<div class="fines-list">
+  <h2>📚 Overdue Books</h2>
+  <div *ngIf="overdueBooks.length > 0" class="fine-summary">
+    🧾 <strong>Total Fine:</strong> ${{ getTotalFine().toFixed(2) }}
+  </div>
+  <div *ngIf="overdueBooks.length === 0" class="no-items-message">
+    No overdue books 🎉
+  </div>
+  <ul *ngIf="overdueBooks.length > 0">
+    <li *ngFor="let item of overdueBooks">
+      <strong>{{ item.book.book.title }}</strong> — {{ item.daysLate }} days late
+      <br />
+      💰 Fine: ${{ item.fine.toFixed(2) }}
+    </li>
+  </ul>
+
+  <hr class="hr" />
+
+  <h2>📘 Books Still Within Time</h2>
+  <div *ngIf="upcomingDueBooks.length === 0" class="no-items-message">
+    No borrowed books currently.
+  </div>
+  <ul *ngIf="upcomingDueBooks.length > 0">
+    <li *ngFor="let item of upcomingDueBooks">
+      <strong>{{ item.book.book.title }}</strong> — {{ item.daysLeft }} days left
+      <span *ngIf="item.daysLeft <= 2" class="text-warning">⚠️ Due soon</span>
+      <br />
+      <small>📅 Due: {{ item.book.due_date | date }}</small>
+    </li>
+  </ul>
+</div>

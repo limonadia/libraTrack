@@ -1,0 +1,16 @@
+<div class="book-card">
+  <div class="book-cover">
+    <img [src]="book.cover_image" [alt]="book.title" />
+    <span class="availability-badge" [class.available]="book.available">
+      {{ book.available ? 'Available' : 'Checked Out' }}
+    </span>
+  </div>
+  <div class="book-info">
+    <h3 class="book-title">{{ book.title }}</h3>
+    <p class="book-author">by {{ book.author }}</p>
+    <div class="book-category">
+      <span class="category-badge">{{ book.category }}</span>
+    </div>
+    <a [routerLink]="['/books', book.id]" class="btn btn-primary btn-sm">View Details</a>
+  </div>
+</div>

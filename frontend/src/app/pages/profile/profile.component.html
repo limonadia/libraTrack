@@ -1,0 +1,21 @@
+<div *ngIf="user; else loading" class="profile-card">
+  <div class="profile-header">
+    <img
+      src="https://ui-avatars.com/api/?name={{user.name}}&background=4CAF50&color=fff&size=128"
+      alt="Profile picture"
+      class="profile-avatar"
+    />
+    <h2>{{ user.name }}</h2>
+    <p class="role">{{ user.role | titlecase }}</p>
+  </div>
+
+  <div class="profile-details">
+    <p><strong>Email:</strong> {{ user.email }}</p>
+  </div>
+
+  <button class="btn-logout" (click)="logout()">Logout</button>
+</div>
+
+<ng-template #loading>
+  <p class="loading-text">Loading profile...</p>
+</ng-template>
