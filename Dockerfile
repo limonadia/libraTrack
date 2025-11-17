@@ -26,6 +26,7 @@ WORKDIR /var/www/html
 
 # Copy backend application files
 COPY backend/ /var/www/html/
+COPY vendor/ /var/www/html/vendor/
 
 # Install PHP dependencies (if composer.json exists)
 RUN if [ -f composer.json ]; then composer install --no-interaction --optimize-autoloader --no-dev; fi
