@@ -1,6 +1,5 @@
-version: '3.8'
-
 services:
+  # --- PHP Backend ---
   app:
     build:
       context: .
@@ -8,26 +7,41 @@ services:
     container_name: libratrack_app
     ports:
       - "8080:80"
+    volumes:
+      - ./backend:/var/www/html
+      - ./vendor:/var/www/html/vendor
     environment:
-      MYSQLHOST: db
-      MYSQLPORT: 3306
-      MYSQLDATABASE: libratrack
-      MYSQLUSER: root
-      MYSQLPASSWORD: root_pass
+      MYSQL_HOST: db
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: libratrack
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root_pass
     depends_on:
       db:
         condition: service_healthy
     networks:
       - libratrack_network
 
+  # --- Angular Frontend ---
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: libratrack_frontend
+    ports:
+      - "3000:80"
+    networks:
+      - libratrack_network
+
+  # --- MySQL Database ---
   db:
     image: mysql:8.0
     container_name: libratrack_db
+    ports:
+      - "3307:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root_pass
       MYSQL_DATABASE: libratrack
-    ports:
-      - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
       - ./database/libratrack.sql:/docker-entrypoint-initdb.d/libratrack.sql
@@ -39,13 +53,19 @@ services:
     networks:
       - libratrack_network
 
-  frontend:
-    build:
-      context: .
-      dockerfile: frontend/Dockerfile
-    container_name: libratrack_frontend
+  # --- phpMyAdmin (optional) ---
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: libratrack_phpmyadmin
     ports:
-      - "3000:80"
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root_pass
+    depends_on:
+      - db
     networks:
       - libratrack_network
 
