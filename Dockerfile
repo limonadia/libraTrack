@@ -15,6 +15,10 @@ RUN apt-get update && apt-get install -y \
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mysqli mbstring exif pcntl bcmath gd zip
 
+# Enable extensions (sometimes needed explicitly)
+RUN docker-php-ext-enable pdo_mysql
+
+
 # Enable Apache modules
 RUN a2enmod rewrite headers
 
