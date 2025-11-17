@@ -11,11 +11,7 @@ services:
       - ./backend:/var/www/html
       - ./vendor:/var/www/html/vendor
     environment:
-      MYSQL_HOST: db
-      MYSQL_PORT: 3306
-      MYSQL_DATABASE: libratrack
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root_pass
+      MYSQL_URL: ${MYSQL_URL}
     depends_on:
       db:
         condition: service_healthy

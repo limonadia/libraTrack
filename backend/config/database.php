@@ -11,11 +11,17 @@ class Database {
     public $conn;
 
   public function __construct() {
-        $this->host     = getenv('MYSQLHOST');
-        $this->port     = getenv('MYSQLPORT');
-        $this->db_name  = getenv('MYSQLDATABASE');
-        $this->username = getenv('MYSQLUSER');
-        $this->password = getenv('MYSQLPASSWORD');
+    $url = getenv('MYSQL_URL');
+
+       if ($url) {
+    $dbopts = parse_url($url);
+    $this->host = $dbopts['host'];
+    $this->port = $dbopts['port'] ?? 3306;
+    $this->username = $dbopts['user'];
+    $this->password = $dbopts['pass'];
+    $this->db_name = ltrim($dbopts['path'], '/');
+}
+
     }
 
     public function getConnection() {
