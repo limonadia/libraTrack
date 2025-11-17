@@ -21,6 +21,10 @@ RUN a2enmod rewrite headers
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Copy Composer files
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader
+
 # Set working directory (root for PHP)
 WORKDIR /var/www/html
 
