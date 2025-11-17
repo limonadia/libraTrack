@@ -2,7 +2,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$allowedOrigins = ['http://localhost:4200'];
+$allowedOrigins = ['https://libra-track-nu.vercel.app'];
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 
 if (in_array($origin, $allowedOrigins)) {

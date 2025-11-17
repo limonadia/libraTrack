@@ -1,5 +1,5 @@
 <?php
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: https://libra-track-nu.vercel.app");
 header("Content-Type: application/json; charset=UTF-8");
 
 include_once '../config/database.php';
