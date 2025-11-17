@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: "http://your-production-domain.com/libratrack/backend",
+  apiUrl: "http://localhost:8080/api",
 }
