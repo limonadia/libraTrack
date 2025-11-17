@@ -25,7 +25,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 
 # Copy backend application files
-COPY backend/ /var/www/html/
+COPY backend/api /var/www/html/
 
 # Install PHP dependencies
 RUN composer install --no-interaction --optimize-autoloader --no-dev
