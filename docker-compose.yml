@@ -12,8 +12,8 @@ services:
       - "8080:80"
     volumes:
       # NOTE: Cleaned up volume mounts for better Docker practice
-      - ./backend/api:/var/www/html        # Mount entire backend as DocumentRoot
-      - ./backend/api/vendor:/var/www/html/vendor  # Keep vendor separate
+      - ./backend:/var/www/html        # Mount entire backend as DocumentRoot
+      - ./vendor:/var/www/html/vendor  # Keep vendor separate
       # The frontend folder is NOT mounted here, it's handled by the 'frontend' service
     environment:
       - DB_HOST=db
