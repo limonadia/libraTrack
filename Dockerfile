@@ -26,6 +26,8 @@ WORKDIR /var/www/html
 
 # Copy backend application files
 COPY backend/ /var/www/html/
+
+# Copy Composer vendor folder
 COPY vendor/ /var/www/html/vendor/
 
 # Install PHP dependencies (if composer.json exists)
