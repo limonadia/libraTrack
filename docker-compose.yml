@@ -1,57 +1,33 @@
 version: '3.8'
 
 services:
-  # PHP Application with Apache (Backend API)
   app:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: libratrack_app
     ports:
-      # Exposes the PHP/Apache server for the backend API
       - "8080:80"
-    volumes:
-      # NOTE: Cleaned up volume mounts for better Docker practice
-      - ./backend:/var/www/html        # Mount entire backend as DocumentRoot
-      - ./vendor:/var/www/html/vendor  # Keep vendor separate
-      # The frontend folder is NOT mounted here, it's handled by the 'frontend' service
     environment:
-      - DB_HOST=db
-      - DB_PORT=3306
-      - DB_DATABASE=libratrack
-      - DB_USERNAME=root
-      - DB_PASSWORD=root_pass
+      MYSQLHOST: db
+      MYSQLPORT: 3306
+      MYSQLDATABASE: libratrack
+      MYSQLUSER: root
+      MYSQLPASSWORD: root_pass
     depends_on:
       db:
         condition: service_healthy
     networks:
       - libratrack_network
 
-  # --- NEW: Angular Frontend Service ---
-  frontend:
-    # Build using the dedicated Dockerfile in the 'frontend' directory
-    build:
-      context: .
-      dockerfile: frontend/Dockerfile
-    container_name: libratrack_frontend
-    ports:
-      # Exposes the Nginx server for the Angular UI
-      - "3000:80"
-    # IMPORTANT: We use the built files, so no volume mount for 'frontend/' is needed.
-    # If you were developing, you would use a 'node' image and a volume mount here.
-    networks:
-      - libratrack_network
-  # -------------------------------------
-
-  # MySQL Database
   db:
     image: mysql:8.0
     container_name: libratrack_db
-    ports:
-      - "3307:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root_pass
       MYSQL_DATABASE: libratrack
+    ports:
+      - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
       - ./database/libratrack.sql:/docker-entrypoint-initdb.d/libratrack.sql
@@ -63,19 +39,13 @@ services:
     networks:
       - libratrack_network
 
-  # phpMyAdmin (optional - for database management)
-  phpmyadmin:
-    image: phpmyadmin:latest
-    container_name: libratrack_phpmyadmin
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: libratrack_frontend
     ports:
-      - "8081:80"
-    environment:
-      PMA_HOST: db
-      PMA_PORT: 3306
-      PMA_USER: root
-      PMA_PASSWORD: root_pass
-    depends_on:
-      - db
+      - "3000:80"
     networks:
       - libratrack_network
 
