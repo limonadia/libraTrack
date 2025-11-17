@@ -21,26 +21,21 @@ RUN a2enmod rewrite headers
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set working directory
+# Set working directory (root for PHP)
 WORKDIR /var/www/html
 
-# Copy backend application files
+# Copy backend files
 COPY backend/ /var/www/html/
 
-# Copy Composer vendor folder
-COPY vendor/ /var/www/html/vendor/
+# Install Composer dependencies INSIDE container
+RUN if [ -f composer.json ]; then composer install --no-interaction --optimize-autoloader; fi
 
-# Install PHP dependencies (if composer.json exists)
-RUN if [ -f composer.json ]; then composer install --no-interaction --optimize-autoloader --no-dev; fi
-
-# Set permissions
+# Permissions
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html
 
-# Configure Apache
+# Apache config
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
-RUN sed -i 's/Listen 80/Listen ${PORT}/' /etc/apache2/ports.conf
-RUN sed -i 's/:80/:${PORT}/' /etc/apache2/sites-enabled/000-default.conf
 
 EXPOSE 80
 
