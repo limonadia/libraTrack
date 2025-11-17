@@ -8,10 +8,10 @@ class Database {
     public $conn;
 
     public function __construct() {
-       $this->host = getenv('DB_HOST');
-        $this->db_name = getenv('DB_DATABASE');
-        $this->username = getenv('DB_USERNAME');
-        $this->password = getenv('DB_PASSWORD');
+       $this->host = 'shortline.proxy.rlwy.net';
+        $this->db_name = 'libratrack';
+        $this->username = 'root';
+        $this->password = getenv('MYSQLPASSWORD');
     }
 
     public function getConnection() {
