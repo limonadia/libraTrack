@@ -28,7 +28,7 @@ WORKDIR /var/www/html
 COPY backend/ /var/www/html/
 
 # Install PHP dependencies
-RUN composer install --no-interaction --optimize-autoloader --no-dev
+# RUN composer install --no-interaction --optimize-autoloader --no-dev
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \
