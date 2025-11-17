@@ -8,11 +8,10 @@ class Database {
     public $conn;
 
     public function __construct() {
-        // Read from environment variables (Docker) or use defaults (local)
-        $this->host = getenv('DB_HOST') ?: 'localhost';
-        $this->db_name = getenv('DB_DATABASE') ?: 'libratrack';
-        $this->username = getenv('DB_USERNAME') ?: 'root';
-        $this->password = getenv('DB_PASSWORD') ?: 'root_pass';
+       $this->host = getenv('DB_HOST');
+        $this->db_name = getenv('DB_DATABASE');
+        $this->username = getenv('DB_USERNAME');
+        $this->password = getenv('DB_PASSWORD');
     }
 
     public function getConnection() {
