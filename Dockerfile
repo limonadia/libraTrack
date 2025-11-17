@@ -24,8 +24,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy application files
-COPY . /var/www/html/
+# Copy backend application files
+COPY backend/ /var/www/html/
 
 # Install PHP dependencies
 RUN composer install --no-interaction --optimize-autoloader --no-dev
@@ -37,11 +37,10 @@ RUN chown -R www-data:www-data /var/www/html \
 # Configure Apache
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
-# Update Apache document root if needed (default is /var/www/html)
-ENV APACHE_DOCUMENT_ROOT /var/www/html
+# For Railway: Apache must listen on dynamic port
+RUN sed -i 's/Listen 80/Listen ${PORT}/' /etc/apache2/ports.conf
+RUN sed -i 's/:80/:${PORT}/' /etc/apache2/sites-enabled/000-default.conf
 
-# Expose port 80
 EXPOSE 80
 
-# Start Apache
 CMD ["apache2-foreground"]
