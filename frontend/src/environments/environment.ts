@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: "https://libratrack-production.up.railway.app/api",
+  apiUrl: "https://libratrack-production.up.railway.app/backend/api",
 }
