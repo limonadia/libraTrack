@@ -31,9 +31,6 @@ WORKDIR /var/www/html
 # Copy backend files
 COPY backend/ /var/www/html/
 
-# Install Composer dependencies INSIDE container
-RUN if [ -f composer.json ]; then composer install --no-interaction --optimize-autoloader; fi
-
 # Permissions
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html
@@ -41,6 +38,9 @@ RUN chown -R www-data:www-data /var/www/html \
 # Apache config
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
-EXPOSE 80
+# Dynamically set port at runtime
+ENV APACHE_RUN_PORT=${PORT}
+
+EXPOSE ${PORT}
 
 CMD ["apache2-foreground"]
