@@ -9,7 +9,6 @@ Dockerfile
 node_modules/
 frontend/node_modules/
 npm-debug.log
-vendor/
 *.log
 .DS_Store
 .idea
