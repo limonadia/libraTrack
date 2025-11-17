@@ -11,11 +11,12 @@ class Database {
     public $conn;
 
     public function __construct() {
-    $this->host     = getenv('MYSQLHOST');
-    $this->port     = getenv('MYSQLPORT');
-    $this->db_name  = getenv('MYSQLDATABASE');
-    $this->username = getenv('MYSQLUSER');
-    $this->password = getenv('MYSQLPASSWORD');
+    $this->host     = getenv('RAILWAY_PRIVATE_DOMAIN');  
+    $this->port     = getenv('MYSQLPORT') ?: 3306;
+    $this->db_name  = getenv('MYSQL_DATABASE');
+    $this->username = getenv('MYSQLUSER') ?: 'root';
+    $this->password = getenv('MYSQL_ROOT_PASSWORD');
+
 }
 
     public function getConnection() {
