@@ -64,7 +64,7 @@ createBook(): void {
     },
     error: (err) => this.bookErrorMessage = err.message || "Failed to create book."
   });
-  window.location.reload();
+  // window.location.reload();
 }
 
 deleteBook(bookId: string): void {
@@ -79,7 +79,7 @@ deleteBook(bookId: string): void {
       console.error('Delete failed:', err);
     }
   });
-  window.location.reload();
+  // window.location.reload();
 
 }
 
