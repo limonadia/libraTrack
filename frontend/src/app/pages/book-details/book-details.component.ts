@@ -111,7 +111,7 @@ loadBookAndReservations(bookId: string): void {
       }
     });
 
-    window.location.reload();
+    // window.location.reload();
   }
 
   updateBookReservationStatus(){
