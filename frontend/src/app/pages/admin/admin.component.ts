@@ -149,6 +149,7 @@ cancelDelete(): void {
         console.error(err);
       }
     });
+    console.log("Book marked as available.")
 
     // window.location.reload();//
   }
