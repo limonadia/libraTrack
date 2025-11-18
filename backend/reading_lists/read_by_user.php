@@ -12,7 +12,7 @@ include_once '../auth/validate_token.php';
 $database = new Database();
 $db = $database->getConnection();
 
-require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 use \Firebase\JWT\JWT;
 use \Firebase\JWT\Key;
 
