@@ -150,7 +150,7 @@ cancelDelete(): void {
       }
     });
 
-    window.location.reload();
+    // window.location.reload();
   }
   
 }
