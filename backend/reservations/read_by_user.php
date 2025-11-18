@@ -38,7 +38,7 @@ if (!$authHeader || !preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
     echo json_encode(["message" => "Access denied. No valid Authorization header found (e.g., Bearer token missing)."]);
     exit(); 
 }
-
+#help
 $jwt = $matches[1]; 
 
 $key = "your_secret_key"; 
