@@ -18,15 +18,15 @@ RUN docker-php-ext-install pdo_mysql mysqli mbstring exif pcntl bcmath gd zip
 # Enable Apache modules
 RUN a2enmod rewrite headers
 
-# ===== FIX APACHE MPM CONFLICT (RAILWAY SAFE) =====
-RUN set -eux; \
-    rm -f /etc/apache2/mods-enabled/mpm_event.* || true; \
-    rm -f /etc/apache2/mods-enabled/mpm_worker.* || true; \
-    rm -f /etc/apache2/mods-enabled/mpm_prefork.* || true; \
-    rm -f /etc/apache2/mods-available/mpm_event.* || true; \
-    rm -f /etc/apache2/mods-available/mpm_worker.* || true; \
-    rm -f /etc/apache2/mods-available/mpm_prefork.* || true; \
-    a2enmod mpm_prefork
+RUN apache2ctl -M | grep mpm
+
+# Fix MPM conflict: disable event/worker, use only prefork
+RUN a2dismod mpm_event mpm_worker || true \
+ && a2enmod mpm_prefork \
+ && rm -f /etc/apache2/mods-enabled/mpm_event.load \
+ && rm -f /etc/apache2/mods-enabled/mpm_event.conf \
+ && rm -f /etc/apache2/mods-enabled/mpm_worker.load \
+ && rm -f /etc/apache2/mods-enabled/mpm_worker.conf
 
 # Set working directory
 WORKDIR /var/www/html
@@ -66,12 +66,16 @@ RUN chown -R www-data:www-data /var/www/html \
 # ServerName to avoid warnings
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
-# Create startup script to handle dynamic PORT
-RUN echo '#!/bin/bash\n\
+# Startup script — also cleans MPM at runtime just in case
+RUN printf '#!/bin/bash\n\
 export PORT=${PORT:-8080}\n\
+rm -f /etc/apache2/mods-enabled/mpm_event.load\n\
+rm -f /etc/apache2/mods-enabled/mpm_event.conf\n\
+rm -f /etc/apache2/mods-enabled/mpm_worker.load\n\
+rm -f /etc/apache2/mods-enabled/mpm_worker.conf\n\
 echo "Listen $PORT" > /etc/apache2/ports.conf\n\
-sed -i "s/\${PORT}/$PORT/g" /etc/apache2/sites-available/000-default.conf\n\
-apache2-foreground' > /start.sh && chmod +x /start.sh
+sed -i "s/\\${PORT}/$PORT/g" /etc/apache2/sites-available/000-default.conf\n\
+apache2-foreground\n' > /start.sh && chmod +x /start.sh
 
 EXPOSE ${PORT:-8080}
 
