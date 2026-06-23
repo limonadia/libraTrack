@@ -18,12 +18,12 @@ RUN docker-php-ext-install pdo_mysql mysqli mbstring exif pcntl bcmath gd zip
 # Enable Apache modules
 RUN a2enmod rewrite headers
 
-# FORCE SINGLE MPM (FIX FOR RAILWAY + PHP 8.2 APACHE)
-RUN set -eux; \
-    a2dismod mpm_event || true; \
-    a2dismod mpm_worker || true; \
-    a2dismod mpm_prefork || true; \
-    a2enmod mpm_prefork
+# HARD RESET APACHE MPM (fix for php:8.2-apache on Railway)
+RUN rm -f /etc/apache2/mods-enabled/mpm_event.load \
+         /etc/apache2/mods-enabled/mpm_worker.load \
+         /etc/apache2/mods-enabled/mpm_prefork.load || true
+
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # Set working directory
 WORKDIR /var/www/html
