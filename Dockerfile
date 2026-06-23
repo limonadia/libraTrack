@@ -18,6 +18,8 @@ RUN docker-php-ext-install pdo_mysql mysqli mbstring exif pcntl bcmath gd zip
 # Enable Apache modules
 RUN a2enmod rewrite headers
 
+RUN apache2ctl -M | grep mpm
+
 # HARD FORCE ONLY ONE MPM (safe Railway fix)
 RUN sed -i 's/^LoadModule mpm_event_module/#LoadModule mpm_event_module/' /etc/apache2/mods-enabled/*.load || true \
  && sed -i 's/^LoadModule mpm_worker_module/#LoadModule mpm_worker_module/' /etc/apache2/mods-enabled/*.load || true \
@@ -67,8 +69,6 @@ export PORT=${PORT:-8080}\n\
 echo "Listen $PORT" > /etc/apache2/ports.conf\n\
 sed -i "s/\${PORT}/$PORT/g" /etc/apache2/sites-available/000-default.conf\n\
 apache2-foreground' > /start.sh && chmod +x /start.sh
-
-RUN apache2ctl -M | grep mpm
 
 EXPOSE ${PORT:-8080}
 
